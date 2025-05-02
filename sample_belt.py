@@ -30,7 +30,7 @@ for a in angles_up:
 #     # cube.rotate_from_angax(a, 'z')
 #     halbach.add(cube)
 
-# halbach.show(backend='plotly')
+halbach.show(backend='plotly')
 
 fig, ax = plt.subplots()
 
