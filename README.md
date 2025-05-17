@@ -1,13 +1,15 @@
-# Magnetic Field Optimization for Halbach Ring
+# Magnetic Field Optimization for Halbach Ring Configuration
 
-The following project implements a magnetic field optimization system for a Halbach half-ring configuration to create speciefied magnetic field.
+This project provides tools for optimizing magnetic field configurations using Halbach rings. It implements a flexible parametrization system for magnet placement and size optimization.
 
 ## Features
 
-- Parametric Halbach ring configuration
-- Magnetic field calculation using magpylib
-- Visualization of magnetic field distribution
-- Support for custom magnet dimensions and polarizations
+- Flexible parametrization of magnet positions and sizes
+- Support for multiple rings with different configurations
+- Automatic calculation of maximum allowed magnet sizes
+- Prevention of magnet intersections
+- Magnetic field visualization and analysis
+- Built-in optimization capabilities
 
 ## Installation
 
@@ -24,39 +26,71 @@ pip install -r requirements.txt
 
 ## Usage
 
-Basic usage example:
+### Basic Example
 
 ```python
-from parametrization import HalbachRing
-import numpy as np
+from src.parametrization import HalbachRing
 
-# Create a half-ring with 10 magnets
-dimensions = [(0.035, 0.035, 0.035) for _ in range(10)]
-polarizations = [(-1.5, 0, 0) for _ in range(10)]
+# Define parameters
+N = [6, 3]  # Number of magnets in each ring
+dimensions = [1] * 9  # Normalized size factors (0-1) for each magnet
+polarizations = [(-1.6, 0, 0)] * 9  # Polarization vectors for each magnet
+angles = [0.4, 0.01, 0.99, 0.4, 0.01, 0.99, 0.4, 0.01, 0.99]  # Normalized angles (0-1)
 
+# Create Halbach ring configuration
 ring = HalbachRing(
     dimensions=dimensions,
     polarizations=polarizations,
-    radius=0.12,
-    num_magnets=10
+    min_radius=0.12,  # Minimum radius in meters
+    num_rings=2,      # Number of rings
+    num_magnets=N,    # Magnets per ring
+    start_angle=[0, 0],    # Start angles in degrees
+    end_angle=[180, 160],  # End angles in degrees
+    angles=angles
 )
+
+# Calculate field at a point
+point = (0, 0, 0)
+B_amplitude = ring.get_field_amplitude_at_point(point)
+print(f"Magnetic field amplitude at origin: {B_amplitude:.6f} T")
+
+# Visualize
+ring.visualize()  # 2D field plot
+ring.visualize_structure()  # 3D structure visualization
 ```
 
-## Parameters
+### Parameters
 
-### HalbachRing Class
+- `dimensions`: List of normalized size factors (0-1) for each magnet
+- `polarizations`: List of 3D polarization vectors (px, py, pz) for each magnet
+- `min_radius`: Minimum radius for the innermost ring in meters
+- `num_rings`: Number of rings in the configuration
+- `num_magnets`: List of number of magnets in each ring
+- `start_angle`: List of starting angles in degrees for each ring
+- `end_angle`: List of ending angles in degrees for each ring
+- `angles`: List of normalized angles (0-1) for each magnet's position
 
-- `dimensions`: List of magnet dimensions (x, y, z) in meters
-- `polarizations`: List of polarization vectors (Bx, By, Bz) in Tesla
-- `angles`: Optional list of rotation angles in degrees, if not specified all magnets are placed uniformly from the starting angle to the ending angle.
-- `radius`: Ring radius in meters
-- `num_magnets`: Number of magnets in the ring
-- `start_angle`: Starting angle in degrees
-- `end_angle`: Ending angle in degrees
+### Key Features
 
-## Visualization
+1. **Automatic Size Calculation**:
+   - Maximum magnet sizes are calculated based on ring geometry
+   - Prevents magnet intersections
+   - Maintains minimum gaps between magnets
 
-The code includes built-in visualization capabilities:
-- Contour plot of field amplitude
-- Streamlines showing field direction
-- Colorbar indicating field strength
+2. **Flexible Positioning**:
+   - Normalized angle parameters (0-1) for easy optimization
+   - Automatic conversion to actual positions
+   - Support for partial rings and custom angle ranges
+
+3. **Field Analysis**:
+   - Calculate magnetic field at any point
+   - Visualize field distribution
+   - 3D structure visualization
+
+## License
+
+[Your License Here]
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
