@@ -1,4 +1,4 @@
-from parametrization import HalbachRing
+from cube_magnets.cuboids_parametrization import HalbachRing_Cuboids
 import numpy as np
 import seaborn as sns
 import pandas as pd
@@ -16,7 +16,7 @@ class StatisticCollection(object):
                     magnet_dimensions = [(d[0], d[0], d[0]) for _ in range(n[0])]
                     magnet_polarizations = [(polarization[0], 0, 0) for _ in range(n[0])]
 
-                    ring = HalbachRing(
+                    ring = HalbachRing_Cuboids(
                         dimensions=magnet_dimensions,
                         polarizations=magnet_polarizations,
                         radius=radius,

@@ -3,7 +3,7 @@ import magpylib as magpy
 import matplotlib.pyplot as plt
 from typing import Union, List, Tuple
 
-class HalbachRing:
+class HalbachRing_Cuboids:
     def __init__(self,
                  dimensions: List[float],
                  polarizations: List[Tuple[float, float, float]],
@@ -14,7 +14,7 @@ class HalbachRing:
                  start_angle: Union[float, List[float]],
                  end_angle: Union[float, List[float]]):
         """
-        Initialize a ring of magnets.
+        Initialize a ring of magnets in the shape of cuboids.
 
         Args:
             dimensions: List of scalar size factors (0-1) per magnet
@@ -119,20 +119,21 @@ class HalbachRing:
 
     def visualize_structure(self):
         self.get_collection().show(backend='plotly')
+        
 
 if __name__ == "__main__":
-    N = [6, 3]
-    dimensions = [1] * 9
-    polarizations = [(-1.6, 0, 0)] * 9
-    angles = [0.4, 0.01, 0.99, 0.4, 0.01, 0.99, 0.4, 0.01, 0.99]
-    ring = HalbachRing(
+    N = [10]
+    dimensions = [1] * 10
+    polarizations = [(-1.6, 0, 0)] * 5 + [(1.6, 0, 0)] * 5
+    angles = [0.5] * 5 + [0.5] * 5
+    ring = HalbachRing_Cuboids(
         dimensions=dimensions,
         polarizations=polarizations,
         min_radius=0.12,
-        num_rings=2,
+        num_rings=1,
         num_magnets=N,
-        start_angle=[0, 0],
-        end_angle=[180, 160],
+        start_angle=[0],
+        end_angle=[360],
         angles=angles
     )
 
